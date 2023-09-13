@@ -1,0 +1,67 @@
+<p-toast></p-toast>
+<p-card [header]="title">
+  <div class="formgrid grid justify-content-center align-content-center">
+    <div class="field col p-float-label">
+      <input
+        pInputText
+        id="nome"
+        [(ngModel)]="contato.nome"
+        required
+        [maxlength]="100"
+      />
+      <label htmlFor="nome">Nome</label>
+    </div>
+    <div class="field col p-float-label">
+      <input
+        pInputText
+        id="email"
+        [(ngModel)]="contato.email"
+        [maxLength]="255"
+        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+      />
+      <label htmlFor="email">Email</label>
+    </div>
+    <div class="field col p-float-label">
+      <p-inputMask
+        mask="99-99999999"
+        id="telefone"
+        [unmask]="true"
+        [(ngModel)]="contato.telefone"
+        [minlength]="10"
+        [maxlength]="10"
+        [required]="true"
+        [autoClear]="false"
+      ></p-inputMask>
+      <label htmlFor="telefone">Telefone</label>
+    </div>
+    <div class="field col p-float-label">
+      <p-inputMask
+        mask="99-999999999"
+        id="celular"
+        [unmask]="true"
+        [required]="true"
+        [(ngModel)]="contato.celular"
+        [minlength]="11"
+        [maxlength]="11"
+        [autoClear]="false"
+      ></p-inputMask>
+      <label htmlFor="celular">Celular</label>
+    </div>
+  </div>
+
+  <a
+    pButton
+    label="Voltar"
+    icon="pi pi-arrow-left"
+    class="p-button"
+    routerLink="/"
+  ></a>
+  <button
+    pButton
+    pRipple
+    label="Salvar"
+    icon="pi pi-pencil"
+    class="p-button-text"
+    (click)="submitContatoForm()"
+  ></button>
+</p-card>

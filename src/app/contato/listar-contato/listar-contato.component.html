@@ -1,0 +1,111 @@
+<p-toast></p-toast>
+<p-card>
+  <ng-template pTemplate="header">
+    <div class="flex align-items-center justify-content-between pl-4 pr-4">
+      <h2>Contatos</h2>
+      <a
+        pButton
+        pRipple
+        label="Cadastrar Contato"
+        icon="pi pi-plus"
+        routerLink="/cadastrar-contato"
+      ></a>
+    </div>
+  </ng-template>
+  <p-table
+    #dt
+    [value]="contatos"
+    sortField="id"
+    dataKey="id"
+    [lazy]="true"
+    (onLazyLoad)="handlePagination($event)"
+    [paginator]="true"
+    [rows]="10"
+    responsiveLayout="stack"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Mostrando {first} até {last} de {totalRecords} registros"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [totalRecords]="totalRecords"
+    [globalFilterFields]="['nome', 'email', 'celular', 'telefone']"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="nome">
+          Nome <p-sortIcon field="nome"></p-sortIcon>
+        </th>
+        <th pSortableColumn="email">
+          Email <p-sortIcon field="email"></p-sortIcon>
+        </th>
+        <th pSortableColumn="celular">
+          Celular <p-sortIcon field="celular"></p-sortIcon>
+        </th>
+        <th pSortableColumn="telefone">
+          Telefone <p-sortIcon field="telefone"></p-sortIcon>
+        </th>
+        <th pSortableColumn="favorito">
+          Favorito <p-sortIcon field="favorito"></p-sortIcon>
+        </th>
+        <th pSortableColumn="ativo">
+          Ativo <p-sortIcon field="ativo"></p-sortIcon>
+        </th>
+        <th>
+          <span class="p-input-icon-left ml-auto">
+            <i class="pi pi-search"></i>
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="searchTerm"
+              placeholder="Pesquisa"
+              (keyup.enter)="getContatosByTerm()"
+            />
+          </span>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-contato>
+      <tr>
+        <td>{{ contato.nome }}</td>
+        <td>{{ contato.email }}</td>
+        <td>{{ contato.celular | Celular }}</td>
+        <td>{{ contato.telefone | Telefone }}</td>
+        <td>{{ contato.favorito }}</td>
+        <td>{{ contato.ativo }}</td>
+        <td>
+          <a
+            pButton
+            pRipple
+            label=""
+            icon="pi pi-pencil"
+            class="p-button-text"
+            pTooltip="Editar Contato"
+            [routerLink]="'/cadastrar-contato/' + contato.id"
+          ></a>
+          <button
+            pButton
+            pRipple
+            label=""
+            [icon]="contato.favorito == 'N' ? 'pi pi-star' : 'pi pi-star-fill'"
+            class="p-button-text"
+            [pTooltip]="
+              contato.favorito == 'N'
+                ? 'Favoritar Contato'
+                : 'Desfavoritar Contato'
+            "
+            (click)="favoriteContato(contato)"
+          ></button>
+          <button
+            pButton
+            pRipple
+            label=""
+            [icon]="contato.ativo == 'N' ? 'pi pi-power-off' : 'pi pi-ban'"
+            [pTooltip]="
+              contato.ativo == 'N' ? 'Ativar Contato' : 'Desativar Contato'
+            "
+            (click)="desativarContato(contato)"
+            class="p-button-text"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>
